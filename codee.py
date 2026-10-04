@@ -36,7 +36,7 @@ with open('file.txt', 'w') as summary_file:
 print("save file.txt")
 
 # Streamlit app
-st.title('EDA of Student Analysis')
+st.title('Student Analysis')
 
 # Printing the DataFrame
 st.subheader('Original dataset')
@@ -45,7 +45,18 @@ st.write(df.shape)
 
 # Printing the Update Dataframe
 # Null values
+
 st.subheader("After handling missing values")
+
+# 1. Remove columns that are completely empty
+df = df.dropna(axis=1, how="all")
+
+# 3. Fill the leftover small gaps
+for col in df.select_dtypes(include="object").columns:
+    df[col] = df[col].fillna("Unknown")
+for col in df.select_dtypes(include="number").columns:
+    df[col] = df[col].fillna(df[col].median())
+
 st.write(df)
 st.write(df.shape)
 
@@ -72,7 +83,7 @@ if x_column != 0:
 
     st.subheader("Pie chart using matplotlib")
     y_column = st.selectbox("Select x-axis column", df.columns, index=0)
-    st.subheader("Maths grade")
+    st.subheader(y_column)
 
 plt.figure(figsize=[10, 10])
 plt.pie(df[y_column].head(60).value_counts().values,

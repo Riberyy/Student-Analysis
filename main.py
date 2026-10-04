@@ -6,7 +6,7 @@ import os
 def load_csv_file(file_path):
     try:
         with open(file_path, "r") as file:
-            st.error("File loaded successfully!")
+            st.success("File loaded successfully!")
     except FileNotFoundError:
         st.error(f"File not found: {file_path}")
 file_path = "student-dataset.csv"
